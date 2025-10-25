@@ -1,41 +1,41 @@
 /* --- الإعدادات العامة --- */
 :root {
-  --dark-blue: #0d2a4a;
-  --light-blue: #1e4776;
-  --accent-orange: #e65a41;
-  --accent-glow: #ffc506;
-  --logo-main-blue: #2c9ed2;
-  --logo-light-blue: #e0f2f7;
-  --text-color: #ffffff;
-  --font-family: 'Cairo', sans-serif;
+    --dark-blue: #0d2a4a;
+    --light-blue: #1e4776;
+    --accent-orange: #e65a41;
+    --accent-glow: #ffc506;
+    --logo-main-blue: #2c9ed2;
+    --logo-light-blue: #e0f2f7;
+    --text-color: #ffffff;
+    --font-family: 'Cairo', sans-serif;
 }
 
 body {
-  margin: 0;
-  font-family: var(--font-family);
-  background-color: var(--dark-blue);
-  color: var(--text-color);
-  text-align: right;
-  overflow-x: hidden;
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--dark-blue);
+    color: var(--text-color);
+    text-align: right;
+    overflow-x: hidden;
 }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 header {
-  background: rgba(13, 42, 74, 0.8);
-  padding: 10px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(5px);
+    background: rgba(13, 42, 74, 0.8);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(5px);
 }
 header .container { display: flex; justify-content: space-between; align-items: center; }
 
 .logo {
-  height: 70px;
-  transition: height 0.6s ease-out;
+    height: 70px;
+    transition: height 0.6s ease-out;
 }
 .logo-large-initial {
-  height: 120px;
+    height: 120px;
 }
 
 nav a { color: var(--text-color); text-decoration: none; margin: 0 15px; font-weight: bold; transition: color 0.3s; }
@@ -45,33 +45,33 @@ nav a:hover { color: var(--logo-main-blue); }
 .hidden { display: none; }
 #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--dark-blue); display: flex; justify-content: center; align-items: center; z-index: 1000; transition: opacity 0.8s ease-out; }
 #splash-screen img {
-  max-width: 350px;
-  animation: zoomIn 1.5s ease-in-out forwards;
+    max-width: 350px;
+    animation: zoomIn 1.5s ease-in-out forwards;
 }
 @keyframes zoomIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
 
 /* --- كود قسم الـ Hero الدوار ثلاثي الأبعاد --- */
 .wrapper {
-width: 100%; height: 450px; position: relative; text-align: center; display: flex;
-align-items: center; justify-content: center; overflow: hidden;
-background-image: linear-gradient(rgba(13, 42, 74, 0.7), rgba(13, 42, 74, 0.9)), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1400');
-background-size: cover; background-position: center;
+  width: 100%; height: 450px; position: relative; text-align: center; display: flex;
+  align-items: center; justify-content: center; overflow: hidden;
+  background-image: linear-gradient(rgba(13, 42, 74, 0.7), rgba(13, 42, 74, 0.9)), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1400');
+  background-size: cover; background-position: center;
 }
 .inner {
---w: 180px; --h: 270px; --quantity: 6;
---translateZ: calc((var(--w) + var(--h)) / 1.5);
---rotateX: -10deg; --perspective: 1500px;
-position: absolute; width: var(--w); height: var(--h); top: 10%; left: calc(50% - (var(--w) / 2) - 2.5px);
-z-index: 2; transform-style: preserve-3d; transform: perspective(var(--perspective));
-animation: rotating 25s linear infinite;
+  --w: 180px; --h: 270px; --quantity: 6;
+  --translateZ: calc((var(--w) + var(--h)) / 1.5);
+  --rotateX: -10deg; --perspective: 1500px;
+  position: absolute; width: var(--w); height: var(--h); top: 10%; left: calc(50% - (var(--w) / 2) - 2.5px);
+  z-index: 2; transform-style: preserve-3d; transform: perspective(var(--perspective));
+  animation: rotating 25s linear infinite;
 }
 @keyframes rotating { from { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0); } to { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(1turn); } }
 .inner:hover { animation-play-state: paused; }
 .card {
-position: absolute; --color-card: var(--logo-main-blue); border: 1px solid rgba(var(--color-card), 0.5);
-border-radius: 10px; overflow: hidden; inset: 0;
-transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
-transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  position: absolute; --color-card: var(--logo-main-blue); border: 1px solid rgba(var(--color-card), 0.5);
+  border-radius: 10px; overflow: hidden; inset: 0;
+  transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
+  transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 3px 10px rgba(0,0,0,0.2);
 }
 .card:hover { transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 30px)) scale(1.08); box-shadow: 0 5px 20px rgba(var(--color-card), 0.4); }
 .card img { width: 100%; height: 100%; object-fit: cover; }
@@ -119,102 +119,97 @@ hr.hidden { opacity: 0; }
 .input-field { width: 100%; padding: 12px 15px; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: #fff; font-family: var(--font-family); font-size: 1em; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; text-align: right; }
 .input-field:focus { outline: none; border-color: var(--logo-main-blue); box-shadow: 0 0 15px rgba(44, 158, 210, 0.5); }
 
-/* ====================================================== */
-/* كود بطاقة التواصل الاجتماعي (مع التحسينات) */
-/* ====================================================== */
+/* --- كود بطاقة التواصل الاجتماعي --- */
 .social-card {
-position: fixed; bottom: 20px; right: 20px; z-index: 1000;
-max-width: fit-content; border-radius: 12px; display: flex; gap: 0.5rem;
-backdrop-filter: blur(10px); background: rgba(44, 158, 210, 0.1);
-box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 3px rgba(255, 255, 255, 0.2), 0 3px 3px rgba(0, 0, 0, 0.1);
-transition: 0.5s;
+  position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+  max-width: fit-content; border-radius: 12px; display: flex; gap: 0.5rem;
+  backdrop-filter: blur(10px); background: rgba(44, 158, 210, 0.1);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 3px rgba(255, 255, 255, 0.2), 0 3px 3px rgba(0, 0, 0, 0.1);
+  transition: 0.5s;
 }
 .social-card:hover { background: rgba(44, 158, 210, 0.15); }
 .social-card ul { padding: 0.8rem; display: flex; list-style: none; gap: 1rem; flex-direction: column; margin: 0; }
 .social-card ul li { cursor: pointer; }
-
-/* !! تحسينات على الأيقونة !! */
 .svg, img.svg {
-transition: all 0.3s ease; /* تعديل الحركة */
-padding: 0.6rem; height: 35px; width: 35px;
-border-radius: 50%; color: var(--accent-glow);
-box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.1);
-display: block; box-sizing: content-box;
-background-color: rgba(0,0,0, 0.1); /* إضافة خلفية خفيفة للأيقونة */
+  transition: all 0.3s ease; padding: 0.6rem; height: 35px; width: 35px;
+  border-radius: 50%; color: var(--accent-glow);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.1);
+  display: block; box-sizing: content-box; background-color: rgba(0,0,0, 0.1);
 }
-/* إزالة fill من SVG لتجنب المشاكل مع الصور */
 .svg { fill: currentColor; }
-
 .text {
-opacity: 0; border-radius: 5px; padding: 4px 8px; font-size: 0.8em;
-transition: all 0.3s; color: #000; background-color: var(--accent-glow);
-position: absolute; z-index: 9999; font-weight: bold; white-space: nowrap; /* منع التفاف النص */
-box-shadow: -3px 0 1px rgba(153, 153, 153, 0.1), -6px 0 1px rgba(153, 153, 153, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.05);
+  opacity: 0; border-radius: 5px; padding: 4px 8px; font-size: 0.8em;
+  transition: all 0.3s; color: #000; background-color: var(--accent-glow);
+  position: absolute; z-index: 9999; font-weight: bold; white-space: nowrap;
+  box-shadow: -3px 0 1px rgba(153, 153, 153, 0.1), -6px 0 1px rgba(153, 153, 153, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.05);
 }
 .iso-pro { transition: 0.5s; position: relative; }
-
-/* !! تحسينات على تأثير المرور !! */
-.iso-pro a { display: block; } /* لضمان أن الرابط يغطي المساحة */
+.iso-pro a { display: block; }
 .iso-pro:hover a > .svg,
-.iso-pro:hover a > img.svg {
-  transform: translate(10px, -10px) scale(1.1); /* تكبير بسيط وتحريك */
-  color: #fff; /* تغيير لون أيقونة SVG للأبيض */
-  background-color: rgba(0,0,0, 0.2); /* تغميق الخلفية قليلاً */
-  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1), 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-/* تطبيق التغيير على صورة الواتساب أيضاً */
-.iso-pro.whatsapp:hover a > img.svg {
-  filter: brightness(1.2); /* زيادة سطوع صورة الواتساب */
-}
-
+.iso-pro:hover a > img.svg { transform: translate(10px, -10px) scale(1.1); color: #fff; background-color: rgba(0,0,0, 0.2); box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1), 0 5px 10px rgba(0, 0, 0, 0.2); }
+.iso-pro.whatsapp:hover a > img.svg { filter: brightness(1.2); }
 .iso-pro:hover .text { opacity: 1; transform: translate(18px, -1px) skew(-5deg); }
-
 .iso-pro span {
-opacity: 0; position: absolute;
-box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.1);
-border-radius: 50%; transition: all 0.3s;
-height: 35px; width: 35px;
-/* !! تحسين محاذاة الظلال !! */
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%); /* التوسيط الدقيق */
-z-index: -1;
+  opacity: 0; position: absolute;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 50%; transition: all 0.3s; height: 35px; width: 35px;
+  top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;
 }
 .iso-pro.whatsapp span { color: #25d366; border: 1px solid #25d366; }
 .iso-pro.instagram span { color: #E4405F; border: 1px solid #E4405F; }
 .iso-pro.snapchat span { color: #FFFC00; border: 1px solid #FFFC00; }
 .iso-pro:hover span { opacity: 1; }
-
-/* !! تحسين حركة الظلال !! */
-.iso-pro:hover span:nth-child(1) { opacity: 0.2; transform: translate(-50%, -50%); } /* يبقى في المنتصف */
+.iso-pro:hover span:nth-child(1) { opacity: 0.2; transform: translate(-50%, -50%); }
 .iso-pro:hover span:nth-child(2) { opacity: 0.4; transform: translate(calc(-50% + 4px), calc(-50% - 4px)); }
 .iso-pro:hover span:nth-child(3) { opacity: 0.6; transform: translate(calc(-50% + 8px), calc(-50% - 8px)); }
 
-/* --- قسم التجاوب مع الجوال --- */
+/* ====================================================== */
+/* تعديلات قسم التجاوب مع الجوال (Mobile Responsiveness) */
+/* ====================================================== */
 @media (max-width: 768px) {
-  header .container { flex-wrap: wrap; justify-content: center; }
-  .logo { height: 50px !important; }
-  .logo-large-initial { height: 80px !important; }
-  nav { margin-top: 10px; }
-  nav a { margin: 0 10px; font-size: 0.9em;}
-  .cta-button { margin-top: 10px; font-size: 0.9em; padding: 8px 15px;}
-  .wrapper { height: 350px; }
-  .inner { --w: 130px; --h: 200px; --translateZ: calc((var(--w) + var(--h)) / 2.5); top: 15%; }
-  #services h2 { font-size: 2em; }
-  .services-grid { grid-template-columns: 1fr; gap: 25px; }
-  .service-card-content h3 { font-size: 1.4em; }
-  button.animated-btn { width: 80%; }
-  .modal-content { padding: 20px; }
-  .calculator-form h3, .booking-form h4 { font-size: 1.5em; }
-  .input-group { max-width: 90%; }
-  .price-display h4 { font-size: 1.1em; }
-  .social-card { bottom: 15px; right: 15px; }
-  .social-card ul { padding: 0.6rem; gap: 0.8rem; }
-  .svg, img.svg { height: 30px; width: 30px; padding: 0.5rem; }
-  .iso-pro span { height: 30px; width: 30px; top: 50%; left: 50%; } /* توسيط الظل */
-  .text { display: none; }
-  .iso-pro:hover a > .svg, .iso-pro:hover a > img.svg { transform: none; }
-  .iso-pro:hover span { opacity: 0; }
+    header .container { flex-wrap: wrap; justify-content: center; }
+    .logo { height: 50px !important; }
+    .logo-large-initial { height: 80px !important; }
+    nav { margin-top: 10px; }
+    nav a { margin: 0 10px; font-size: 0.9em;}
+    .cta-button { margin-top: 10px; font-size: 0.9em; padding: 8px 15px;}
+    .wrapper { height: 350px; }
+    .inner { --w: 130px; --h: 200px; --translateZ: calc((var(--w) + var(--h)) / 2.5); top: 15%; }
+    #services h2 { font-size: 2em; }
+
+    /* !! تم التعديل: جعل بطاقات الخدمات عمودين !! */
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr); /* عمودان */
+        gap: 15px; /* تقليل المسافة */
+    }
+    .service-card-content { padding: 15px 10px; } /* تقليل الحشوة الداخلية */
+    .service-card-content h3 { font-size: 1.2em; }
+    .service-card-content p { font-size: 0.8em; min-height: auto; margin-bottom: 15px;} /* تعديل حجم النص والمسافة */
+    button.animated-btn { width: 95%; /* تكبير الزر قليلاً */ height: 2.5rem; /* تصغير ارتفاع الزر */}
+    button.animated-btn .circle { width: 2.5rem; height: 2.5rem; }
+    button.animated-btn .button-text { font-size: 0.8em; margin: 0 0 0 1.5rem; padding: 0.6rem 0; }
+    button.animated-btn .circle .icon.arrow { left: 0.5rem; width: 1rem; }
+    button.animated-btn .circle .icon.arrow::before { width: 0.5rem; height: 0.5rem; top: -0.25rem; }
+
+    /* !! تم التعديل: جعل النافذة المنبثقة قابلة للتمرير !! */
+    .modal-content {
+        padding: 20px;
+        max-height: 85vh; /* تحديد أقصى ارتفاع */
+        overflow-y: auto; /* إضافة شريط تمرير عند الحاجة */
+    }
+    .calculator-form h3, .booking-form h4 { font-size: 1.5em; }
+    .input-group { max-width: 90%; }
+    .price-display h4 { font-size: 1.1em; }
+    .booking-form { gap: 10px; } /* تقليل المسافة في نموذج الحجز */
+
+    /* بطاقة التواصل تبقى كما هي تقريباً */
+    .social-card { bottom: 15px; right: 15px; }
+    .social-card ul { padding: 0.6rem; gap: 0.8rem; }
+    .svg, img.svg { height: 30px; width: 30px; padding: 0.5rem; }
+    .iso-pro span { height: 30px; width: 30px; top: 50%; left: 50%; }
+    .text { display: none; }
+    .iso-pro:hover a > .svg, .iso-pro:hover a > img.svg { transform: none; }
+    .iso-pro:hover span { opacity: 0; }
 }
 
 /* --- تنسيقات لصفحة اتصل بنا --- */
@@ -222,17 +217,16 @@ z-index: -1;
 .contact-page h1 { font-size: 2.8em; margin-bottom: 40px; color: var(--logo-light-blue); }
 .contact-methods { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
 .contact-method {
-  background-color: var(--light-blue); padding: 25px; border-radius: 15px;
-  width: 250px; text-align: center; transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    background-color: var(--light-blue); padding: 25px; border-radius: 15px;
+    width: 250px; text-align: center; transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 .contact-method:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(var(--logo-main-blue), 0.4); }
 .contact-method svg, .contact-method img { width: 50px; height: 50px; margin-bottom: 15px; }
-/* ألوان الأيقونات لصفحة اتصل بنا تبقى كما هي */
 .contact-method h3 { margin-top: 0; margin-bottom: 10px; font-size: 1.3em; }
 .contact-method p { margin: 0; font-size: 1em; color: #eee; word-wrap: break-word; }
 .contact-method a { color: inherit; text-decoration: none; display: block; }
 @media (max-width: 768px) {
-  .contact-page h1 { font-size: 2.2em; }
-  .contact-method { width: 80%; }
+    .contact-page h1 { font-size: 2.2em; }
+    .contact-method { width: 80%; }
 }
