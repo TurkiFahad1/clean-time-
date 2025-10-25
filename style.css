@@ -64,6 +64,7 @@ nav a:hover { color: var(--logo-main-blue); }
   position: absolute; width: var(--w); height: var(--h); top: 10%; left: calc(50% - (var(--w) / 2) - 2.5px);
   z-index: 2; transform-style: preserve-3d; transform: perspective(var(--perspective));
   animation: rotating 25s linear infinite;
+  /* لتفعيل السحب اليدوي بشكل فعال يجب إيقاف هذه الحركة في JS */
 }
 @keyframes rotating { from { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0); } to { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(1turn); } }
 .inner:hover { animation-play-state: paused; }
@@ -163,6 +164,25 @@ hr.hidden { opacity: 0; }
 .iso-pro:hover span:nth-child(2) { opacity: 0.4; transform: translate(calc(-50% + 4px), calc(-50% - 4px)); }
 .iso-pro:hover span:nth-child(3) { opacity: 0.6; transform: translate(calc(-50% + 8px), calc(-50% - 8px)); }
 
+/* --- الفوتر (Footer) --- */
+footer {
+    background-color: var(--dark-blue);
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9em;
+    color: #bbb;
+    margin-top: 50px; /* زيادة الهامش العلوي لدفعه للأسفل */
+}
+footer a {
+    color: var(--logo-main-blue);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+footer a:hover {
+    color: var(--accent-glow);
+}
+
+
 /* ====================================================== */
 /* تعديلات قسم التجاوب مع الجوال (Mobile Responsiveness) */
 /* ====================================================== */
@@ -177,30 +197,37 @@ hr.hidden { opacity: 0; }
     .inner { --w: 130px; --h: 200px; --translateZ: calc((var(--w) + var(--h)) / 2.5); top: 15%; }
     #services h2 { font-size: 2em; }
 
-    /* !! تم التعديل: جعل بطاقات الخدمات عمودين !! */
+    /* !! تم التعديل: تصغير بطاقات الخدمات !! */
     .services-grid {
         grid-template-columns: repeat(2, 1fr); /* عمودان */
         gap: 15px; /* تقليل المسافة */
+        padding: 0 10px; /* إضافة حشوة جانبية لرؤية الخلفية */
     }
-    .service-card-content { padding: 15px 10px; } /* تقليل الحشوة الداخلية */
-    .service-card-content h3 { font-size: 1.2em; }
-    .service-card-content p { font-size: 0.8em; min-height: auto; margin-bottom: 15px;} /* تعديل حجم النص والمسافة */
-    button.animated-btn { width: 95%; /* تكبير الزر قليلاً */ height: 2.5rem; /* تصغير ارتفاع الزر */}
-    button.animated-btn .circle { width: 2.5rem; height: 2.5rem; }
-    button.animated-btn .button-text { font-size: 0.8em; margin: 0 0 0 1.5rem; padding: 0.6rem 0; }
-    button.animated-btn .circle .icon.arrow { left: 0.5rem; width: 1rem; }
-    button.animated-btn .circle .icon.arrow::before { width: 0.5rem; height: 0.5rem; top: -0.25rem; }
+    .service-card {
+        padding: 10px; /* تقليل الحشوة الداخلية للبطاقة */
+    }
+    .service-card-content { padding: 15px 10px; } /* تقليل الحشوة الداخلية للمحتوى */
+    .service-card-content img { height: 50px; margin-bottom: 10px;} /* تصغير الأيقونات */
+    .service-card-content h3 { font-size: 1.1em; } /* تصغير العنوان */
+    .service-card-content p { font-size: 0.75em; min-height: auto; margin-bottom: 10px; } /* تصغير الوصف */
+    button.animated-btn { width: 95%; height: 2.2rem; } /* تصغير الزر */
+    button.animated-btn .circle { width: 2.2rem; height: 2.2rem; }
+    button.animated-btn .button-text { font-size: 0.75em; margin: 0 0 0 1.2rem; padding: 0.5rem 0; }
+    button.animated-btn .circle .icon.arrow { left: 0.4rem; width: 0.9rem; }
+    button.animated-btn .circle .icon.arrow::before { width: 0.4rem; height: 0.4rem; top: -0.2rem; }
 
-    /* !! تم التعديل: جعل النافذة المنبثقة قابلة للتمرير !! */
     .modal-content {
         padding: 20px;
-        max-height: 85vh; /* تحديد أقصى ارتفاع */
-        overflow-y: auto; /* إضافة شريط تمرير عند الحاجة */
+        max-height: 85vh;
+        overflow-y: auto;
     }
     .calculator-form h3, .booking-form h4 { font-size: 1.5em; }
     .input-group { max-width: 90%; }
     .price-display h4 { font-size: 1.1em; }
-    .booking-form { gap: 10px; } /* تقليل المسافة في نموذج الحجز */
+    .booking-form { gap: 10px; }
+
+    /* حقوق النشر على الجوال */
+    footer { margin-top: 30px; padding: 15px 0; font-size: 0.8em;}
 
     /* بطاقة التواصل تبقى كما هي تقريباً */
     .social-card { bottom: 15px; right: 15px; }
