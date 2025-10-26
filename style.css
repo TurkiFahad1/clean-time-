@@ -50,55 +50,120 @@ nav a:hover { color: var(--logo-main-blue); }
 }
 @keyframes zoomIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
 
-/* --- كود قسم الـ Hero الدوار ثلاثي الأبعاد --- */
+/* ====================================================== */
+/* !! إعادة كود قسم الـ Hero الدوار ثلاثي الأبعاد !! */
+/* ====================================================== */
 .wrapper {
-  width: 100%; height: 450px; position: relative; text-align: center; display: flex;
-  align-items: center; justify-content: center; overflow: hidden;
+  width: 100%;
+  height: 450px;
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   background-image: linear-gradient(rgba(13, 42, 74, 0.7), rgba(13, 42, 74, 0.9)), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1400');
-  background-size: cover; background-position: center;
+  background-size: cover;
+  background-position: center;
+  cursor: grab; /* إضافة مؤشر السحب */
 }
+.wrapper:active {
+    cursor: grabbing; /* مؤشر أثناء السحب */
+}
+
 .inner {
-  --w: 180px; --h: 270px; --quantity: 6;
+  --w: 180px;
+  --h: 270px;
+  --quantity: 6;
   --translateZ: calc((var(--w) + var(--h)) / 1.5);
-  --rotateX: -10deg; --perspective: 1500px;
-  position: absolute; width: var(--w); height: var(--h); top: 10%; left: calc(50% - (var(--w) / 2) - 2.5px);
-  z-index: 2; transform-style: preserve-3d; transform: perspective(var(--perspective));
-  animation: rotating 25s linear infinite;
-  /* لتفعيل السحب اليدوي بشكل فعال يجب إيقاف هذه الحركة في JS */
+  --rotateX: -10deg;
+  --perspective: 1500px;
+  position: absolute;
+  width: var(--w);
+  height: var(--h);
+  top: 10%;
+  left: calc(50% - (var(--w) / 2) - 2.5px);
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg); /* البدء من 0 درجة */
+  /* تمت إزالة animation من هنا، سيتم التحكم بها بالـ JS */
 }
-@keyframes rotating { from { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0); } to { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(1turn); } }
-.inner:hover { animation-play-state: paused; }
+/* لا نحتاج @keyframes rotating الآن */
+
 .card {
-  position: absolute; --color-card: var(--logo-main-blue); border: 1px solid rgba(var(--color-card), 0.5);
-  border-radius: 10px; overflow: hidden; inset: 0;
+  position: absolute;
+  --color-card: var(--logo-main-blue);
+  border: 1px solid rgba(var(--color-card), 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  inset: 0;
   transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
-  transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  user-select: none; /* منع تحديد الصورة */
+  -webkit-user-drag: none; /* منع السحب الافتراضي للصورة */
 }
-.card:hover { transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 30px)) scale(1.08); box-shadow: 0 5px 20px rgba(var(--color-card), 0.4); }
-.card img { width: 100%; height: 100%; object-fit: cover; }
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* منع التفاعل مع الصورة مباشرة لتسهيل السحب */
+}
+/* ====================================================== */
+/* نهاية كود الدوران */
+/* ====================================================== */
 
 /* --- قسم الخدمات --- */
 #services { padding: 50px 0; }
 #services h2 { text-align: center; font-size: 2.5em; margin-bottom: 40px; }
 .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
-.service-card { --border-size: 3px; --border-angle: 0turn; background: var(--light-blue); position: relative; border-radius: 15px; display: flex; align-items: center; justify-content: center; }
+.service-card { --border-size: 3px; --border-angle: 0turn; background: var(--light-blue); position: relative; border-radius: 15px; display: flex; flex-direction: column; }
 .service-card::before { content: ''; position: absolute; z-index: -1; top: calc(-1 * var(--border-size)); left: calc(-1 * var(--border-size)); width: calc(100% + var(--border-size) * 2); height: calc(100% + var(--border-size) * 2); background: conic-gradient(from var(--border-angle), var(--dark-blue), var(--dark-blue) 50%, var(--logo-main-blue) 50%, var(--logo-main-blue)); background-size: 200% 200%; border-radius: 18px; animation: spin 5s linear infinite; }
 @keyframes spin { to { --border-angle: 1turn; } }
 .service-card:hover::before { animation-play-state: paused; }
-.service-card-content { padding: 30px 20px; text-align: center; width: 100%; box-sizing: border-box; }
+.service-card-content { padding: 30px 20px 20px; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; }
 .service-card-content img { height: 60px; margin-bottom: 15px; filter: brightness(0) invert(1); }
 .service-card-content h3 { margin: 0; font-size: 1.6em; }
 .service-card-content p { color: #ccc; margin: 10px 0 25px; font-size: 0.9em; min-height: 2.7em; }
 
-button.animated-btn { position: relative; display: inline-block; cursor: pointer; outline: none; border: 0; vertical-align: middle; text-decoration: none; background: transparent; padding: 0; font-size: inherit; font-family: inherit; width: 90%; height: auto; }
-button.animated-btn .circle { transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1); position: relative; display: block; margin: 0; width: 3rem; height: 3rem; background: var(--logo-main-blue); border-radius: 1.625rem; }
+/* ====================================================== */
+/* !! إعادة كود الزر المتحرك الأصلي مع تعديل اللون !! */
+/* ====================================================== */
+button.animated-btn {
+    position: relative; display: inline-block; cursor: pointer; outline: none; border: 0;
+    vertical-align: middle; text-decoration: none; background: transparent; padding: 0;
+    font-size: inherit; font-family: inherit; width: 90%; height: 3rem;
+    margin: 0 auto 20px;
+}
+button.animated-btn .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1); /* إعادة الحركة الكاملة */
+    position: relative; display: block; margin: 0; width: 3rem; height: 3rem;
+    background: var(--logo-main-blue); /* اللون الأزرق */
+    border-radius: 1.625rem;
+}
 button.animated-btn .circle .icon { transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1); position: absolute; top: 0; bottom: 0; margin: auto; background: #fff; }
 button.animated-btn .circle .icon.arrow { transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1); left: 0.625rem; width: 1.125rem; height: 0.125rem; background: none; }
 button.animated-btn .circle .icon.arrow::before { position: absolute; content: ""; top: -0.29rem; right: 0.0625rem; width: 0.625rem; height: 0.625rem; border-top: 0.125rem solid #fff; border-right: 0.125rem solid #fff; transform: rotate(45deg); }
-button.animated-btn .button-text { transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1); position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 0.75rem 0; margin: 0 0 0 1.85rem; color: var(--text-color); font-weight: 700; line-height: 1.6; text-align: center; text-transform: uppercase; }
-button.animated-btn:hover .circle { width: 100%; }
-button.animated-btn:hover .circle .icon.arrow { background: #fff; transform: translate(1rem, 0); }
-button.animated-btn:hover .button-text { color: #fff; }
+button.animated-btn .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1); /* إعادة حركة النص */
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 0.75rem 0;
+    margin: 0 0 0 1.85rem; color: var(--text-color); font-weight: 700; line-height: 1.6;
+    text-align: center; text-transform: uppercase;
+}
+/* إعادة حركة توسع الدائرة */
+button.animated-btn:hover .circle {
+    width: 100%;
+}
+button.animated-btn:hover .circle .icon.arrow {
+    background: #fff; /* إعادة لون السهم */
+    transform: translate(1rem, 0); /* إعادة حركة السهم */
+}
+button.animated-btn:hover .button-text {
+    color: #fff; /* إعادة لون النص عند المرور */
+}
+/* ====================================================== */
+/* نهاية تعديل الزر */
+/* ====================================================== */
 
 /* --- النافذة المنبثقة (Modal) --- */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: none; justify-content: center; align-items: center; z-index: 200; backdrop-filter: blur(5px); }
@@ -171,21 +236,12 @@ footer {
     text-align: center;
     font-size: 0.9em;
     color: #bbb;
-    margin-top: 50px; /* زيادة الهامش العلوي لدفعه للأسفل */
+    margin-top: 50px;
 }
-footer a {
-    color: var(--logo-main-blue);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-footer a:hover {
-    color: var(--accent-glow);
-}
+footer a { color: var(--logo-main-blue); text-decoration: none; transition: color 0.3s; }
+footer a:hover { color: var(--accent-glow); }
 
-
-/* ====================================================== */
-/* تعديلات قسم التجاوب مع الجوال (Mobile Responsiveness) */
-/* ====================================================== */
+/* --- قسم التجاوب مع الجوال (Mobile Responsiveness) --- */
 @media (max-width: 768px) {
     header .container { flex-wrap: wrap; justify-content: center; }
     .logo { height: 50px !important; }
@@ -196,40 +252,26 @@ footer a:hover {
     .wrapper { height: 350px; }
     .inner { --w: 130px; --h: 200px; --translateZ: calc((var(--w) + var(--h)) / 2.5); top: 15%; }
     #services h2 { font-size: 2em; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 10px; }
+    .service-card { padding: 10px; }
+    .service-card-content { padding: 15px 10px; }
+    .service-card-content img { height: 45px; margin-bottom: 8px; }
+    .service-card-content h3 { font-size: 1.1em; margin-bottom: 5px; }
+    .service-card-content p { font-size: 0.7em; margin-bottom: 12px; line-height: 1.4; }
 
-    /* !! تم التعديل: تصغير بطاقات الخدمات !! */
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr); /* عمودان */
-        gap: 15px; /* تقليل المسافة */
-        padding: 0 10px; /* إضافة حشوة جانبية لرؤية الخلفية */
-    }
-    .service-card {
-        padding: 10px; /* تقليل الحشوة الداخلية للبطاقة */
-    }
-    .service-card-content { padding: 15px 10px; } /* تقليل الحشوة الداخلية للمحتوى */
-    .service-card-content img { height: 50px; margin-bottom: 10px;} /* تصغير الأيقونات */
-    .service-card-content h3 { font-size: 1.1em; } /* تصغير العنوان */
-    .service-card-content p { font-size: 0.75em; min-height: auto; margin-bottom: 10px; } /* تصغير الوصف */
-    button.animated-btn { width: 95%; height: 2.2rem; } /* تصغير الزر */
-    button.animated-btn .circle { width: 2.2rem; height: 2.2rem; }
-    button.animated-btn .button-text { font-size: 0.75em; margin: 0 0 0 1.2rem; padding: 0.5rem 0; }
-    button.animated-btn .circle .icon.arrow { left: 0.4rem; width: 0.9rem; }
-    button.animated-btn .circle .icon.arrow::before { width: 0.4rem; height: 0.4rem; top: -0.2rem; }
+    /* !! الحفاظ على حجم الزر المتحرك الأصلي على الجوال !! */
+    button.animated-btn { width: 90%; height: 3rem; margin: 10px auto 0; }
+    button.animated-btn .circle { width: 3rem; height: 3rem; }
+    button.animated-btn .button-text { font-size: 0.8em; margin: 0 0 0 1.5rem; padding: 0.75rem 0; }
+    button.animated-btn .circle .icon.arrow { left: 0.625rem; width: 1.125rem; }
+    button.animated-btn .circle .icon.arrow::before { width: 0.625rem; height: 0.625rem; top: -0.29rem; }
 
-    .modal-content {
-        padding: 20px;
-        max-height: 85vh;
-        overflow-y: auto;
-    }
+    .modal-content { padding: 20px; max-height: 85vh; overflow-y: auto; }
     .calculator-form h3, .booking-form h4 { font-size: 1.5em; }
     .input-group { max-width: 90%; }
     .price-display h4 { font-size: 1.1em; }
     .booking-form { gap: 10px; }
-
-    /* حقوق النشر على الجوال */
     footer { margin-top: 30px; padding: 15px 0; font-size: 0.8em;}
-
-    /* بطاقة التواصل تبقى كما هي تقريباً */
     .social-card { bottom: 15px; right: 15px; }
     .social-card ul { padding: 0.6rem; gap: 0.8rem; }
     .svg, img.svg { height: 30px; width: 30px; padding: 0.5rem; }
