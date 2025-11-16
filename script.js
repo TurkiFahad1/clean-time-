@@ -5,68 +5,240 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerLogo = document.querySelector('header .logo');
     const carouselInner = document.querySelector('.inner');
 
-    // شاشة البداية (بدون حركة تصغير الشعار عند التمرير)
-    setTimeout(() => {
-        splashScreen.style.opacity = '0';
-        splashScreen.addEventListener('transitionend', () => {
+    // =================================================================
+    // === كود شاشة البداية (يعمل مرة واحدة) ===
+    // =================================================================
+    if (splashScreen && mainContent) {
+        if (!sessionStorage.getItem('splashShown')) {
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                splashScreen.addEventListener('transitionend', () => {
+                    splashScreen.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                }, { once: true });
+                sessionStorage.setItem('splashShown', 'true');
+            }, 2500); 
+        } else {
             splashScreen.style.display = 'none';
             mainContent.classList.remove('hidden');
-            // لا حاجة لإزالة logo-large-initial هنا، سيبقى الشعار بالحجم الكبير
-        }, { once: true });
-    }, 2500);
+        }
+    }
+    
+    // كود تصغير الشعار (يعمل في كل الصفحات)
+    if (headerLogo) {
+        headerLogo.classList.remove('logo-large-initial');
+        window.onscroll = () => {
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                headerLogo.style.height = '75px'; // الحجم الصغير
+            } else {
+                headerLogo.style.height = '110px'; // الحجم الأصلي
+            }
+        };
+    }
 
 
-    // بيانات الخدمات
+    // =================================================================
+    // === 1. قائمة الخدمات المحدثة (مع روابط الأيقونات الأصلية) ===
+    // =================================================================
     const services = [
-        { name: 'الموكيت', price: 7, unit: 'm2', description: 'تنظيف عميق للموكيت والسجاد.', icon: 'https://img.icons8.com/ios/80/ffffff/rug.png' },
-        { name: 'الكنب', price: 20, unit: 'm', description: 'إزالة تامة للبقع والروائح.', icon: 'https://img.icons8.com/ios/80/ffffff/sofa.png' },
-        { name: 'الجلسة العربي', price: 10, unit: 'm', description: 'نظافة وتعقيم للجلسات.', icon: 'https://img.icons8.com/ios/80/ffffff/cushion.png' },
-        { name: 'مكيف شباك', price: 35, unit: 'qty', description: 'تنظيف شامل للوحدة.', icon: 'https://img.icons8.com/ios/80/ffffff/air-conditioner.png' },
-        { name: 'مكيف اسبليت', price: 50, unit: 'qty', description: 'غسيل وصيانة الفلاتر.', icon: 'https://img.icons8.com/ios/80/ffffff/air-conditioner--v1.png' },
-        { name: 'ستائر', price: 12.5, unit: 'm2', description: 'تنظيف بالبخار في مكانها.', icon: 'https://img.icons8.com/ios/80/ffffff/curtain.png' },
+        // --- خدمات الآلة الحاسبة (المفردة) ---
+        { 
+            name: 'مكيف اسبليت', price: 50, unit: 'qty', 
+            description: 'غسيل وصيانة الفلاتر.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/air-conditioner--v1.png',
+            type: 'calculator',
+            featured: true 
+        },
+        { 
+            name: 'مكيف شباك', price: 35, unit: 'qty', 
+            description: 'تنظيف شامل للوحدة.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/air-conditioner.png',
+            type: 'calculator',
+            featured: true 
+        },
+        { 
+            name: 'مكيف دولابي', price: 90, unit: 'qty', 
+            description: 'تنظيف شامل للمكيف الواقف.', 
+            icon: 'https.api.iconify.design/mdi:air-conditioner-outline.svg?color=white&width=60&height=60',
+            type: 'calculator',
+            featured: true 
+        },
+        { 
+            name: 'الكنب', price: 20, unit: 'm', 
+            description: 'إزالة تامة للبقع والروائح.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/sofa.png',
+            type: 'calculator'
+        },
+        { 
+            name: 'الموكيت', price: 7, unit: 'm2', 
+            description: 'تنظيف عميق للموكيت والسجاد.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/rug.png',
+            type: 'calculator'
+        },
+        { 
+            name: 'الجلسة العربي', price: 10, unit: 'm', 
+            description: 'نظافة وتعقيم للجلسات.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/cushion.png',
+            type: 'calculator'
+        },
+        { 
+            name: 'ستائر', price: 12.5, unit: 'm2',
+            description: 'تنظيف بالبخار في مكانها.', 
+            icon: 'https.api.iconify.design/mdi:curtains.svg?color=white&width=60&height=60',
+            type: 'calculator'
+        },
+        { 
+            name: 'الخداديات', price: 7.5, unit: 'm',
+            description: 'تنظيف وتعقيم الخداديات.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/pillow.png',
+            type: 'calculator'
+        },
+        { 
+            name: 'الأرضيات', price: 4, unit: 'm2', 
+            description: 'تلميع وجلي الأرضيات.', 
+            icon: 'https.api.iconify.design/map:floor-plan.svg?color=white&width=60&height=60',
+            type: 'calculator'
+        },
+        { 
+            name: 'النوافذ', price: 12.5, unit: 'qty',
+            description: 'تنظيف وتلميع النوافذ.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/window.png',
+            type: 'calculator'
+        },
+        { 
+            name: 'مسابح', price: 350, unit: 'qty',
+            description: 'تنظيف وتعقيم المسابح.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/swimming-pool.png',
+            type: 'calculator'
+        },
+        
+        // --- خدمات الحجز المباشر (الشاملة) ---
+        { 
+            name: 'شقة',
+            description: 'تنظيف شامل للشقق السكنية.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/apartment.png',
+            type: 'booking' 
+        },
+        { 
+            name: 'فله',
+            description: 'تنظيف شامل للفلل والقصور.', 
+            icon: 'https.api.iconify.design/mdi:villa.svg?color=white&width=60&height=60',
+            type: 'booking' 
+        },
+        { 
+            name: 'خدمات المساجد',
+            description: 'نظافة وتعقيم لبيوت الله.', 
+            icon: 'https://img.icons8.com/ios/80/ffffff/mosque.png',
+            type: 'discount', 
+            discount: 50
+        }
     ];
 
+    // =================================================================
+    // === 2. تعريف المتغيرات والشبكات ===
+    // =================================================================
     const featuredServicesGrid = document.getElementById('featured-services-grid');
     const allServicesGrid = document.getElementById('all-services-grid');
+    const bookingServicesGrid = document.getElementById('booking-services-grid');
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const closeButton = document.querySelector('.close-button');
 
+
+    // =================================================================
+    // === 3. دالة إنشاء كرت الخدمة (معدلة للزر الجديد) ===
+    // =================================================================
     function createServiceCard(service) {
         const cardWrapper = document.createElement('div');
         cardWrapper.className = 'service-card';
+        
+        if (service.featured) {
+            cardWrapper.classList.add('featured');
+        }
+
+        let buttonHtml = '';
+        let badgeHtml = '';
+        let buttonText = '';
+        let buttonClass = 'ripple-btn'; // الكلاس الجديد
+
+        switch (service.type) {
+            case 'booking':
+                buttonText = 'احجز موعد';
+                break;
+            case 'discount':
+                badgeHtml = `<div class="discount-badge">خصم ${service.discount}%</div>`;
+                buttonText = 'اطلب الخصم';
+                buttonClass += ' discount-btn'; // كلاس إضافي لزر الخصم
+                break;
+            default: // 'calculator'
+                buttonText = 'احسب السعر';
+        }
+        
+        // بناء الزر الجديد البسيط
+        buttonHtml = `<button class="${buttonClass}" data-service='${JSON.stringify(service)}'>${buttonText}</button>`;
+
         cardWrapper.innerHTML = `
+            ${badgeHtml}
             <div class="service-card-content">
-                <img src="${service.icon}" alt="${service.name}">
-                <h3>${service.name}</h3>
+                <img src="${service.icon}" alt="${service.name}"> <h3>${service.name}</h3>
                 <p>${service.description}</p>
-                <button class="animated-btn" data-service='${JSON.stringify(service)}'>
-                    <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span>
-                    <span class="button-text">احسب السعر</span>
-                </button>
+                ${buttonHtml}
             </div>
         `;
         return cardWrapper;
     }
 
+    // =================================================================
+    // === 4. توزيع الخدمات على الصفحات (معدل لترتيبك) ===
+    // =================================================================
     if (featuredServicesGrid) {
-        services.slice(0, 6).forEach(service => {
+        // --- الصفحة الرئيسية (index.html) ---
+        const featuredServiceNames = [
+            "الخداديات",
+            "الموكيت",
+            "الكنب",
+            "الجلسة العربي",
+            "مكيف دولابي",
+            "مكيف شباك"
+        ];
+
+        const servicesToShow = featuredServiceNames.map(name => {
+            return services.find(s => s.name === name);
+        }).filter(s => s); 
+
+        servicesToShow.forEach(service => {
             featuredServicesGrid.appendChild(createServiceCard(service));
         });
+        
         featuredServicesGrid.addEventListener('click', handleGridClick);
 
-    } else if (allServicesGrid) {
-        services.forEach(service => {
+    } else if (allServicesGrid && bookingServicesGrid) {
+        // --- صفحة الخدمات (services.html) ---
+        const calcServices = services.filter(s => s.type === 'calculator');
+        const bookingServices = services.filter(s => s.type === 'booking' || s.type === 'discount');
+
+        calcServices.forEach(service => {
             allServicesGrid.appendChild(createServiceCard(service));
         });
+        
+        bookingServices.forEach(service => {
+            bookingServicesGrid.appendChild(createServiceCard(service));
+        });
+
         allServicesGrid.addEventListener('click', handleGridClick);
+        bookingServicesGrid.addEventListener('click', handleGridClick);
     }
 
+    // =================================================================
+    // === 5. دوال النافذة المنبثقة (Modal) (معدلة للزر الجديد) ===
+    // =================================================================
+
     function handleGridClick(e) {
-         const button = e.target.closest('.animated-btn');
+         // استهداف الزر الجديد
+         const button = e.target.closest('.ripple-btn');
          if (button) {
              const service = JSON.parse(button.dataset.service);
-             openModal(service);
+             openModal(service); 
          }
     }
 
@@ -79,34 +251,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
      function openModal(service) {
         let formInputs = '';
-        if (service.unit === 'm2') {
-            formInputs = `<div class="input-group"><label class="input-label" for="width">العرض (متر)</label><input class="input-field" type="number" id="width" placeholder="مثال: 4" value="1" min="1"></div><div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 5" value="1" min="1"></div>`;
-        } else if (service.unit === 'm') {
-             formInputs = `<div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 7" value="1" min="1"></div>`;
-        } else if (service.unit === 'qty') {
-             formInputs = `<div class="input-group"><label class="input-label" for="quantity">العدد</label><input class="input-field" type="number" id="quantity" value="1" min="1"></div>`;
+        let calculatorDisplay = 'block'; 
+        let bookingFormDisplay = 'hidden'; 
+        let separatorDisplay = 'hidden';
+        let modalTitle = '';
+        
+        switch (service.type) {
+            case 'booking':
+                modalTitle = `حجز موعد: ${service.name}`;
+                calculatorDisplay = 'none'; 
+                bookingFormDisplay = ''; 
+                separatorDisplay = ''; 
+                break;
+            case 'discount':
+                modalTitle = `طلب خصم ${service.discount}%: ${service.name}`;
+                calculatorDisplay = 'none'; 
+                bookingFormDisplay = ''; 
+                separatorDisplay = ''; 
+                break;
+            default: // 'calculator'
+                modalTitle = `حاسبة سعر ${service.name}`;
+                if (service.unit === 'm2') {
+                    formInputs = `<div class="input-group"><label class="input-label" for="width">العرض (متر)</label><input class="input-field" type="number" id="width" placeholder="مثال: 4" value="1" min="1"></div><div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 5" value="1" min="1"></div>`;
+                } else if (service.unit === 'm') {
+                     formInputs = `<div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 7" value="1" min="1"></div>`;
+                } else if (service.unit === 'qty') {
+                     formInputs = `<div class="input-group"><label class="input-label" for="quantity">العدد</label><input class="input-field" type="number" id="quantity" value="1" min="1"></div>`;
+                }
+                break;
         }
 
+        // تعديل الزر داخل الفورم إلى الزر الجديد
         modalBody.innerHTML = `
-            <div class="calculator-form"><h3>حاسبة سعر ${service.name}</h3>${formInputs}
-                <div class="price-display"><h4>السعر التقريبي: <span id="price-result">0</span> ريال</h4><p>هذا السعر تقريبي وقد يختلف بعد المعاينة</p></div>
+            <div class="calculator-form" style="display: ${calculatorDisplay};">
+                <h3>${modalTitle}</h3>
+                ${formInputs}
+                <div class="price-display">
+                    <h4>السعر التقريبي: <span id="price-result">0</span> ريال</h4>
+                    <p>هذا السعر تقريبي وقد يختلف بعد المعاينة</p>
+                </div>
             </div>
-            <hr class="hidden">
-            <div class="booking-form hidden">
-                <h4>ممتاز! هل تريد حجز موعدك الآن؟</h4>
+            
+            <hr class="${separatorDisplay}">
+            
+            <div class="booking-form ${bookingFormDisplay}">
+                <h4 id="booking-title">ممتاز! هل تريد حجز موعدك الآن؟</h4>
+                
                 <form id="booking-form-actual">
                     <div class="input-group"><label class="input-label">الاسم الكامل</label><input class="input-field" type="text" name="name" required></div>
                     <div class="input-group"><label class="input-label">رقم الجوال</label><input class="input-field" type="tel" name="phone" required></div>
                     <div class="input-group"><label class="input-label">التاريخ (اختياري)</label><input class="input-field" type="date" name="date"></div>
-                    <button type="submit" class="animated-btn">
-                        <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span>
-                        <span class="button-text">تأكيد الحجز</span>
+                    <button type="submit" class="ripple-btn">
+                        تأكيد الحجز
                     </button>
                 </form>
             </div>`;
+            
         modal.style.display = 'flex';
-        setupCalculator(service);
-        setupBookingForm();
+        
+        if (service.type !== 'calculator') {
+            document.getElementById('booking-title').textContent = modalTitle;
+        }
+
+        setupCalculator(service); 
+        setupBookingForm(service); 
+        
+        // تفعيل تأثير الريبل للأزرار الجديدة داخل الـ Modal
+        addRippleEffectToButtons(modalBody);
     }
 
     function setupCalculator(service) {
@@ -114,12 +325,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputs = modalBody.querySelectorAll('.input-field[type="number"]');
         const bookingSection = modalBody.querySelector('.booking-form');
         const separator = modalBody.querySelector('hr');
+        
         let bookingSectionHeight = 0;
-        if(bookingSection) {
+        if (bookingSection) {
             const wasHidden = bookingSection.classList.contains('hidden');
-            if (wasHidden) bookingSection.classList.remove('hidden');
+            if (wasHidden) bookingSection.classList.remove('hidden'); 
             bookingSectionHeight = bookingSection.scrollHeight + 100;
-             if (wasHidden) bookingSection.classList.add('hidden');
+            if (wasHidden) bookingSection.classList.add('hidden'); 
+        }
+        
+        if (service.type !== 'calculator') {
+            if (bookingSection && separator) {
+                separator.classList.remove('hidden');
+                bookingSection.classList.remove('hidden');
+                bookingSection.style.maxHeight = bookingSectionHeight + 'px';
+            }
+            return; 
         }
 
         function calculatePrice() {
@@ -139,6 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const quantity = quantityInput ? (parseInt(quantityInput.value) || 0) : 0;
                 price = quantity * service.price;
             }
+            
             if(priceResult) priceResult.textContent = price.toFixed(2);
 
             if (price > 0 && bookingSection && separator && bookingSection.classList.contains('hidden')) {
@@ -148,11 +370,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (price <= 0 && bookingSection && separator && !bookingSection.classList.contains('hidden')) {
                  bookingSection.style.maxHeight = '0px';
                  setTimeout(() => {
-                     if (price <= 0) {
+                     if (price <= 0) { 
                         bookingSection.classList.add('hidden');
                         separator.classList.add('hidden');
                      }
-                 }, 700);
+                 }, 700); 
             }
         }
 
@@ -160,11 +382,10 @@ document.addEventListener('DOMContentLoaded', () => {
             input.oninput = calculatePrice;
         });
 
-        calculatePrice(); // الحساب الأولي
+        calculatePrice();
     }
 
-
-    function setupBookingForm() {
+    function setupBookingForm(service) { 
         const form = document.getElementById('booking-form-actual');
         if (!form) return;
 
@@ -181,22 +402,113 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const bookingDiv = document.querySelector('.booking-form');
-            const serviceNameElement = bookingDiv.closest('.modal-content').querySelector('.calculator-form h3');
-            const serviceName = serviceNameElement ? serviceNameElement.textContent.replace('حاسبة سعر ','') : 'خدمة غير محددة';
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            const serviceName = service.name; 
             const name = form.querySelector('[name="name"]').value;
             const phone = form.querySelector('[name="phone"]').value;
             const date = form.querySelector('[name="date"]').value;
-            const price = modalBody.querySelector('#price-result').textContent;
 
-            bookingDiv.innerHTML = '<h4>شكراً لك! تم استلام طلبك بنجاح. سنتواصل معك قريباً لتأكيد الموعد.</h4>';
-             setTimeout(() => {
-                 if (modal) modal.style.display = 'none';
-             }, 3000);
+            const formData = {
+                "الخدمة": serviceName,
+                "الاسم": name,
+                "الجوال": phone,
+                "التاريخ": date || 'لم يحدد',
+                _subject: `حجز جديد: ${serviceName} - ${name}`, 
+            };
+            
+            if (service.type === 'calculator') {
+                const price = modalBody.querySelector('#price-result').textContent;
+                formData["السعر المقدر"] = price + " ريال";
+            }
+            
+            if (service.type === 'discount') {
+                formData["ملاحظة"] = `طلب خصم ${service.discount}% لخدمات المساجد`;
+            }
+            
+            submitButton.textContent = '...جاري الإرسال';
+            submitButton.disabled = true;
+
+            // -----------------------------------------------------------------
+            // !! تذكير: استبدل الرابط التالي بالرابط الخاص بك من Formspree !!
+            // -----------------------------------------------------------------
+            const FORM_ENDPOINT = 'https://formspree.io/f/xvgdvqzg'; // (السطر 335 تقريباً)
+            
+            fetch(FORM_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    bookingDiv.innerHTML = '<h4>شكراً لك! تم استلام طلبك بنجاح. سنتواصل معك قريباً لتأكيد الموعد.</h4>';
+                } else {
+                    bookingDiv.innerHTML = '<h4>عذراً، حدث خطأ أثناء إرسال الطلب. الرجاء المحاولة مرة أخرى.</h4>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                bookingDiv.innerHTML = '<h4>عذراً، حدث خطأ في الشبكة. الرجاء التأكد من اتصالك بالإنترنت.</h4>';
+            })
+            .finally(() => {
+                setTimeout(() => {
+                     if (modal) modal.style.display = 'none';
+                }, 4000);
+            });
+        });
+    }
+    
+    // =================================================================
+    // === 6. كود تفعيل تأثير الريبل (الجديد) ===
+    // =================================================================
+    function createRipple(event) {
+        const button = event.currentTarget;
+
+        const oldRipple = button.querySelector(".ripple");
+        if (oldRipple) {
+            oldRipple.remove();
+        }
+
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        const rect = button.getBoundingClientRect();
+        circle.style.left = `${event.clientX - rect.left - radius}px`;
+        circle.style.top = `${event.clientY - rect.top - radius}px`;
+        circle.classList.add("ripple");
+        
+        button.appendChild(circle);
+        
+        circle.addEventListener('animationend', () => {
+            circle.remove();
+        });
+    }
+    
+    function addRippleEffectToButtons(container) {
+        const buttons = container.querySelectorAll(".ripple-btn");
+        buttons.forEach(button => {
+            button.addEventListener("click", createRipple);
         });
     }
 
-    // كود تفعيل التحريك اليدوي لقسم الـ Hero
+    // تفعيل التأثير على الأزرار الموجودة في الصفحة عند تحميلها
+    addRippleEffectToButtons(document.body);
+
+
+    // =================================================================
+    // === 7. كود الكاروسيل (كما هو) ===
+    // =================================================================
     if (carouselInner) {
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const totalSlides = 6; 
+        const slideAngle = 360 / totalSlides; 
+
         let isDragging = false;
         let startX;
         let currentRotateY = 0;
@@ -205,7 +517,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function applyRotation() {
              carouselInner.style.transform = `perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(${currentRotateY}deg)`;
-             carouselInner.style.transition = 'none';
+        }
+        
+        function applySmoothRotation() {
+             carouselInner.style.transition = 'transform 0.5s ease-out';
+             applyRotation();
         }
 
         const startDrag = (clientX) => {
@@ -213,14 +529,14 @@ document.addEventListener('DOMContentLoaded', () => {
              startX = clientX;
              startRotateY = currentRotateY;
              carouselInner.style.cursor = 'grabbing';
-             carouselInner.style.animation = 'none';
+             carouselInner.style.transition = 'none'; 
              cancelAnimationFrame(animationFrameId);
         };
 
         const drag = (clientX) => {
             if (!isDragging) return;
             const dx = clientX - startX;
-            currentRotateY = startRotateY + dx * 0.4;
+            currentRotateY = startRotateY + dx * 0.4; 
              cancelAnimationFrame(animationFrameId);
              animationFrameId = requestAnimationFrame(applyRotation);
         };
@@ -229,20 +545,39 @@ document.addEventListener('DOMContentLoaded', () => {
              if (!isDragging) return;
              isDragging = false;
              carouselInner.style.cursor = 'grab';
-             carouselInner.style.transition = 'transform 0.5s ease-out';
+             
+             const slideIndex = Math.round(currentRotateY / slideAngle);
+             currentRotateY = slideIndex * slideAngle;
+             
+             applySmoothRotation(); 
         };
+        
+        if (nextBtn) {
+            nextBtn.onclick = () => {
+                const slideIndex = Math.round(currentRotateY / slideAngle) - 1;
+                currentRotateY = slideIndex * slideAngle;
+                applySmoothRotation();
+            };
+        }
+        
+        if (prevBtn) {
+            prevBtn.onclick = () => {
+                const slideIndex = Math.round(currentRotateY / slideAngle) + 1;
+                currentRotateY = slideIndex * slideAngle;
+                applySmoothRotation();
+            };
+        }
 
         carouselInner.addEventListener('mousedown', (e) => startDrag(e.clientX));
         document.addEventListener('mousemove', (e) => drag(e.clientX));
         document.addEventListener('mouseup', endDrag);
-        carouselInner.addEventListener('mouseleave', endDrag);
+        document.addEventListener('mouseleave', endDrag);
 
         carouselInner.addEventListener('touchstart', (e) => startDrag(e.touches[0].clientX), { passive: true });
         carouselInner.addEventListener('touchmove', (e) => {
              if (!isDragging) return;
-             e.preventDefault();
              drag(e.touches[0].clientX);
-        }, { passive: false });
+        }, { passive: true }); 
         carouselInner.addEventListener('touchend', endDrag);
         carouselInner.addEventListener('touchcancel', endDrag);
     }
