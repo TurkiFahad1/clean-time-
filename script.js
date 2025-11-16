@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // -----------------------------------------------------------------
             // !! تذكير: استبدل الرابط التالي بالرابط الخاص بك من Formspree !!
             // -----------------------------------------------------------------
-            const FORM_ENDPOINT = 'https://formspree.io/f/xdkyydzp'; // (السطر 335 تقريباً)
+            const FORM_ENDPOINT = 'https://formspree.io/f/mzzyyvqw'; // (السطر 335 تقريباً)
             
             fetch(FORM_ENDPOINT, {
                 method: 'POST',
