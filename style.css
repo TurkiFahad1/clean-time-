@@ -34,7 +34,6 @@ header .container { display: flex; justify-content: space-between; align-items: 
     height: 110px;
     transition: height 0.6s ease-out;
 }
-/* لا نحتاج logo-large-initial الآن */
 
 nav a { color: var(--text-color); text-decoration: none; margin: 0 15px; font-weight: bold; transition: color 0.3s; }
 nav a:hover { color: var(--logo-main-blue); }
@@ -59,9 +58,10 @@ nav a:hover { color: var(--logo-main-blue); }
 .wrapper:active { cursor: grabbing; }
 
 .inner {
-  --w: 180px; --h: 270px; --quantity: 6;
-  /* !! تم التعديل: زيادة المسافة بتقليل المقام !! */
-  --translateZ: calc((var(--w) + var(--h)) / 1.2);
+  --w: 180px; 
+  --h: 320px; 
+  --quantity: 6;
+  --translateZ: calc((var(--w) + var(--h)) / 1.4); 
   --rotateX: -10deg; --perspective: 1500px;
   position: absolute; width: var(--w); height: var(--h); top: 10%; left: calc(50% - (var(--w) / 2) - 2.5px);
   z-index: 2; transform-style: preserve-3d; transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg);
@@ -79,7 +79,6 @@ nav a:hover { color: var(--logo-main-blue); }
 /* --- قسم الخدمات --- */
 #services { padding: 50px 0; }
 #services h2 { text-align: center; font-size: 2.5em; margin-bottom: 40px; }
-/* تنسيق خاص لعنوان صفحة الخدمات */
 #all-services-grid + h1, body > main > section#services > h1 {
     text-align: center; font-size: 2.8em; margin-bottom: 40px; color: var(--logo-light-blue);
 }
@@ -88,36 +87,81 @@ nav a:hover { color: var(--logo-main-blue); }
 .service-card::before { content: ''; position: absolute; z-index: -1; top: calc(-1 * var(--border-size)); left: calc(-1 * var(--border-size)); width: calc(100% + var(--border-size) * 2); height: calc(100% + var(--border-size) * 2); background: conic-gradient(from var(--border-angle), var(--dark-blue), var(--dark-blue) 50%, var(--logo-main-blue) 50%, var(--logo-main-blue)); background-size: 200% 200%; border-radius: 18px; animation: spin 5s linear infinite; }
 @keyframes spin { to { --border-angle: 1turn; } }
 .service-card:hover::before { animation-play-state: paused; }
-.service-card-content { padding: 30px 20px 20px; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; }
-.service-card-content img { height: 60px; margin-bottom: 15px; filter: brightness(0) invert(1); }
-.service-card-content h3 { margin: 0; font-size: 1.6em; }
-.service-card-content p { color: #ccc; margin: 10px 0 25px; font-size: 0.9em; min-height: 2.7em; }
+.service-card-content { padding: 30px 20px 20px; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; display: flex; flex-direction: column; }
 
-/* --- زر احسب السعر --- */
-button.animated-btn {
-    position: relative; display: inline-block; cursor: pointer; outline: none; border: 0;
-    vertical-align: middle; text-decoration: none; background: transparent; padding: 0;
-    font-size: inherit; font-family: inherit; width: 90%; height: 3rem;
-    margin: 0 auto 20px;
+.service-card-content img { 
+    height: 60px; 
+    margin: 0 auto 15px; 
+    filter: brightness(0) invert(1); 
 }
-button.animated-btn .circle {
-    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-    position: relative; display: block; margin: 0; width: 3rem; height: 3rem;
-    background: var(--logo-main-blue);
-    border-radius: 1.625rem;
+
+.service-card-content h3 { margin: 0; font-size: 1.6em; }
+.service-card-content p { color: #ccc; margin: 10px 0 25px; font-size: 0.9em; min-height: 2.7em; flex-grow: 1; }
+
+/* --- 
+  تنسيق الزر الجديد 
+  (Ripple Button)
+--- */
+button.ripple-btn {
+    position: relative;
+    display: inline-block;
+    width: 90%;
+    max-width: 250px; 
+    padding: 12px 20px;
+    margin: 0 auto 20px; 
+    font-family: var(--font-family);
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: var(--logo-main-blue); 
+    border: none;
+    border-radius: 25px; 
+    cursor: pointer;
+    overflow: hidden; 
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    text-align: center;
+    z-index: 1;
 }
-button.animated-btn .circle .icon { transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1); position: absolute; top: 0; bottom: 0; margin: auto; background: #fff; }
-button.animated-btn .circle .icon.arrow { transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1); left: 0.625rem; width: 1.125rem; height: 0.125rem; background: none; }
-button.animated-btn .circle .icon.arrow::before { position: absolute; content: ""; top: -0.29rem; right: 0.0625rem; width: 0.625rem; height: 0.625rem; border-top: 0.125rem solid #fff; border-right: 0.125rem solid #fff; transform: rotate(45deg); }
-button.animated-btn .button-text {
-    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 0.75rem 0;
-    margin: 0 0 0 1.85rem; color: var(--text-color); font-weight: 700; line-height: 1.6;
-    text-align: center; text-transform: uppercase;
+
+button.ripple-btn:hover {
+    background-color: #38b1e4; 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
-button.animated-btn:hover .circle { width: 100%; }
-button.animated-btn:hover .circle .icon.arrow { background: #fff; transform: translate(1rem, 0); }
-button.animated-btn:hover .button-text { color: #fff; }
+
+/* تنسيق الزر داخل الفورم (Modal) */
+.booking-form button.ripple-btn {
+    width: 100%; 
+    max-width: 350px;
+}
+
+/* تنسيق أزرار الخصم */
+button.ripple-btn.discount-btn {
+    background-color: var(--accent-orange);
+}
+button.ripple-btn.discount-btn:hover {
+    background-color: #d94a30; 
+}
+
+/* تنسيق تأثير التموج */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5); 
+    transform: scale(0);
+    animation: ripple-effect 0.6s linear;
+    pointer-events: none; 
+}
+
+@keyframes ripple-effect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+/* --- نهاية تنسيق الزر الجديد --- */
+
 
 /* --- النافذة المنبثقة (Modal) --- */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: none; justify-content: center; align-items: center; z-index: 200; backdrop-filter: blur(5px); }
@@ -157,6 +201,10 @@ hr.hidden { opacity: 0; }
   display: block; box-sizing: content-box; background-color: rgba(0,0,0, 0.1);
 }
 .svg { fill: currentColor; }
+.iso-pro.snapchat .svg {
+    fill: #FFFC00; 
+    color: #000;
+}
 .text {
   opacity: 0; border-radius: 5px; padding: 4px 8px; font-size: 0.8em;
   transition: all 0.3s; color: #000; background-color: var(--accent-glow);
@@ -215,27 +263,42 @@ footer a:hover { color: var(--accent-glow); }
 /* --- قسم التجاوب مع الجوال (Mobile Responsiveness) --- */
 @media (max-width: 768px) {
     header .container { flex-wrap: wrap; justify-content: center; }
-    .logo { height: 75px !important; } /* الحجم النهائي على الجوال */
+    .logo { height: 75px !important; } 
     nav { margin-top: 10px; }
     nav a { margin: 0 10px; font-size: 0.9em;}
     .cta-button { margin-top: 10px; font-size: 0.9em; padding: 8px 15px;}
     .wrapper { height: 350px; }
-    .inner { --w: 130px; --h: 200px; --translateZ: calc((var(--w) + var(--h)) / 2.5); top: 15%; }
-    /* عنوان صفحة الخدمات الكاملة على الجوال */
+    
+    .inner { 
+        --w: 130px; 
+        --h: 240px; 
+        --translateZ: calc((var(--w) + var(--h)) / 1.5); 
+        top: 10%;
+    }
+
     #all-services-grid + h1, body > main > section#services > h1 { font-size: 2.2em; }
-    #services h2 { font-size: 2em; } /* عنوان أبرز الخدمات */
+    #services h2 { font-size: 2em; } 
     .services-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 10px; }
     .service-card { padding: 8px; border-radius: 10px; }
      .service-card::before { border-radius: 13px; }
     .service-card-content { padding: 10px 8px; }
-    .service-card-content img { height: 40px; margin-bottom: 5px; }
+    
+    .service-card-content img {
+        height: 40px;
+        margin-bottom: 5px;
+    }
+
     .service-card-content h3 { font-size: 1em; margin-bottom: 3px; }
     .service-card-content p { font-size: 0.65em; margin-bottom: 10px; line-height: 1.3; }
-    button.animated-btn { width: 100%; height: 2.5rem; margin: auto 0 0; }
-     button.animated-btn .circle { width: 2.5rem; height: 2.5rem; }
-     button.animated-btn .button-text { font-size: 0.7em; margin: 0 0 0 1.4rem; padding: 0.6rem 0; }
-     button.animated-btn .circle .icon.arrow { left: 0.5rem; width: 0.9rem; }
-     button.animated-btn .circle .icon.arrow::before { width: 0.5rem; height: 0.5rem; top: -0.25rem; }
+    
+    /* --- تعديل: زر الريبل على الجوال --- */
+    button.ripple-btn {
+        width: 100%; 
+        padding: 10px;
+        font-size: 0.8em;
+        margin-bottom: 5px; 
+    }
+
     .more-services-btn { font-size: 0.9em; padding: 10px 20px; }
     .modal-content { padding: 20px; max-height: 85vh; overflow-y: auto; }
     .calculator-form h3, .booking-form h4 { font-size: 1.5em; }
@@ -250,7 +313,7 @@ footer a:hover { color: var(--accent-glow); }
     .text { display: none; }
     .iso-pro:hover a > .svg, .iso-pro:hover a > img.svg { transform: none; }
     .iso-pro:hover span { opacity: 0; }
-    /* صفحة من نحن على الجوال */
+    
     .about-page-content h1 { font-size: 2.2em; }
     .about-page-content .about-logo { max-width: 200px; }
     .about-page-content p { font-size: 1em; line-height: 1.7; }
@@ -274,4 +337,89 @@ footer a:hover { color: var(--accent-glow); }
 @media (max-width: 768px) {
     .contact-page h1 { font-size: 2.2em; }
     .contact-method { width: 80%; }
+}
+
+/* --- أزرار الكاروسيل --- */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(44, 158, 210, 0.7);
+    border: none;
+    color: white;
+    font-size: 24px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 45px;
+    user-select: none;
+}
+.carousel-btn:hover {
+    background-color: rgba(56, 177, 228, 1);
+}
+.prev-btn {
+    left: 20px;
+    padding-right: 3px;
+}
+.next-btn {
+    right: 20px;
+    padding-left: 3px;
+}
+@media (max-width: 768px) {
+    .carousel-btn {
+        display: none;
+    }
+}
+
+/* --- تنسيق الكروت المميزة (مكيفات) --- */
+.service-card.featured {
+    background: var(--logo-main-blue);
+    border: 2px solid var(--accent-glow);
+    box-shadow: 0 0 20px rgba(255, 197, 6, 0.5);
+}
+.service-card.featured::before {
+    display: none;
+}
+/* --- تعديل: الزر داخل الكرت المميز --- */
+.service-card.featured .ripple-btn {
+    background-color: var(--light-blue); 
+    color: var(--text-color);
+}
+.service-card.featured .ripple-btn:hover {
+    background-color: #3a73b1; 
+}
+
+
+/* --- تنسيق شارة الخصم (للمساجد) --- */
+.discount-badge {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background-color: var(--accent-orange);
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transform: rotate(-15deg);
+    z-index: 5;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: rotate(-15deg) scale(1); }
+    50% { transform: rotate(-15deg) scale(1.1); }
+    100% { transform: rotate(-15deg) scale(1); }
+}
+/* --- تعديل: زر الخصم --- */
+.service-card .ripple-btn.discount-btn {
+    background: var(--accent-orange);
+}
+.service-card .ripple-btn.discount-btn:hover {
+    background: #d94a30;
 }
