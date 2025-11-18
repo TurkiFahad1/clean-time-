@@ -24,21 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // كود تصغير الشعار (يعمل في كل الصفحات)
+    // كود تصغير الشعار
     if (headerLogo) {
         headerLogo.classList.remove('logo-large-initial');
         window.onscroll = () => {
             if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-                headerLogo.style.height = '75px'; // الحجم الصغير
+                headerLogo.style.height = '75px';
             } else {
-                headerLogo.style.height = '110px'; // الحجم الأصلي
+                headerLogo.style.height = '110px';
             }
         };
     }
 
 
     // =================================================================
-    // === 1. قائمة الخدمات المحدثة (مع روابط الأيقونات الأصلية) ===
+    // === 1. قائمة الخدمات المحدثة (بأسماء صورك) ===
     // =================================================================
     const services = [
         // --- خدمات الآلة الحاسبة (المفردة) ---
@@ -52,14 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             name: 'مكيف شباك', price: 35, unit: 'qty', 
             description: 'تنظيف شامل للوحدة.', 
-            icon: 'https://img.icons8.com/ios/80/ffffff/air-conditioner.png',
+            icon: 'shb.png', // صورتك
             type: 'calculator',
             featured: true 
         },
         { 
             name: 'مكيف دولابي', price: 90, unit: 'qty', 
             description: 'تنظيف شامل للمكيف الواقف.', 
-            icon: 'https.api.iconify.design/mdi:air-conditioner-outline.svg?color=white&width=60&height=60',
+            icon: 'mkef.png', // صورتك
             type: 'calculator',
             featured: true 
         },
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             name: 'ستائر', price: 12.5, unit: 'm2',
             description: 'تنظيف بالبخار في مكانها.', 
-            icon: 'https.api.iconify.design/mdi:curtains.svg?color=white&width=60&height=60',
+            icon: 'star.png', // صورتك
             type: 'calculator'
         },
         { 
@@ -96,13 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             name: 'الأرضيات', price: 4, unit: 'm2', 
             description: 'تلميع وجلي الأرضيات.', 
-            icon: 'https.api.iconify.design/map:floor-plan.svg?color=white&width=60&height=60',
+            icon: 'ard.png', // صورتك
             type: 'calculator'
         },
         { 
             name: 'النوافذ', price: 12.5, unit: 'qty',
             description: 'تنظيف وتلميع النوافذ.', 
-            icon: 'https://img.icons8.com/ios/80/ffffff/window.png',
+            icon: 'nafth.png', // صورتك
             type: 'calculator'
         },
         { 
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             name: 'فله',
             description: 'تنظيف شامل للفلل والقصور.', 
-            icon: 'https.api.iconify.design/mdi:villa.svg?color=white&width=60&height=60',
+            icon: 'flah.png', // صورتك
             type: 'booking' 
         },
         { 
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =================================================================
-    // === 3. دالة إنشاء كرت الخدمة (معدلة للزر الجديد) ===
+    // === 3. دالة إنشاء كرت الخدمة (أزرار الريبل) ===
     // =================================================================
     function createServiceCard(service) {
         const cardWrapper = document.createElement('div');
@@ -180,7 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cardWrapper.innerHTML = `
             ${badgeHtml}
             <div class="service-card-content">
-                <img src="${service.icon}" alt="${service.name}"> <h3>${service.name}</h3>
+                <img src="${service.icon}" alt="${service.name}">
+                <h3>${service.name}</h3>
                 <p>${service.description}</p>
                 ${buttonHtml}
             </div>
@@ -189,10 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =================================================================
-    // === 4. توزيع الخدمات على الصفحات (معدل لترتيبك) ===
+    // === 4. توزيع الخدمات على الصفحات ===
     // =================================================================
     if (featuredServicesGrid) {
-        // --- الصفحة الرئيسية (index.html) ---
+        // الصفحة الرئيسية: ترتيب مخصص للخدمات
         const featuredServiceNames = [
             "الخداديات",
             "الموكيت",
@@ -213,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         featuredServicesGrid.addEventListener('click', handleGridClick);
 
     } else if (allServicesGrid && bookingServicesGrid) {
-        // --- صفحة الخدمات (services.html) ---
+        // صفحة الخدمات
         const calcServices = services.filter(s => s.type === 'calculator');
         const bookingServices = services.filter(s => s.type === 'booking' || s.type === 'discount');
 
@@ -230,11 +231,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =================================================================
-    // === 5. دوال النافذة المنبثقة (Modal) (معدلة للزر الجديد) ===
+    // === 5. دوال النافذة المنبثقة (Modal) ===
     // =================================================================
 
     function handleGridClick(e) {
-         // استهداف الزر الجديد
          const button = e.target.closest('.ripple-btn');
          if (button) {
              const service = JSON.parse(button.dataset.service);
@@ -271,17 +271,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             default: // 'calculator'
                 modalTitle = `حاسبة سعر ${service.name}`;
+                // إزالة القيمة الافتراضية value="1"
                 if (service.unit === 'm2') {
-                    formInputs = `<div class="input-group"><label class="input-label" for="width">العرض (متر)</label><input class="input-field" type="number" id="width" placeholder="مثال: 4" value="1" min="1"></div><div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 5" value="1" min="1"></div>`;
+                    formInputs = `<div class="input-group"><label class="input-label" for="width">العرض (متر)</label><input class="input-field" type="number" id="width" placeholder="مثال: 4" min="1"></div><div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 5" min="1"></div>`;
                 } else if (service.unit === 'm') {
-                     formInputs = `<div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 7" value="1" min="1"></div>`;
+                     formInputs = `<div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 7" min="1"></div>`;
                 } else if (service.unit === 'qty') {
-                     formInputs = `<div class="input-group"><label class="input-label" for="quantity">العدد</label><input class="input-field" type="number" id="quantity" value="1" min="1"></div>`;
+                     formInputs = `<div class="input-group"><label class="input-label" for="quantity">العدد</label><input class="input-field" type="number" id="quantity" placeholder="أدخل العدد" min="1"></div>`;
                 }
                 break;
         }
 
-        // تعديل الزر داخل الفورم إلى الزر الجديد
         modalBody.innerHTML = `
             <div class="calculator-form" style="display: ${calculatorDisplay};">
                 <h3>${modalTitle}</h3>
@@ -316,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setupCalculator(service); 
         setupBookingForm(service); 
         
-        // تفعيل تأثير الريبل للأزرار الجديدة داخل الـ Modal
         addRippleEffectToButtons(modalBody);
     }
 
@@ -429,10 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.textContent = '...جاري الإرسال';
             submitButton.disabled = true;
 
-            // -----------------------------------------------------------------
-            // !! تذكير: استبدل الرابط التالي بالرابط الخاص بك من Formspree !!
-            // -----------------------------------------------------------------
-            const FORM_ENDPOINT = 'https://formspree.io/f/mzzyyvqw'; // (السطر 335 تقريباً)
+            const FORM_ENDPOINT = 'https://formspree.io/f/xvgdvqzg'; 
             
             fetch(FORM_ENDPOINT, {
                 method: 'POST',
@@ -496,7 +492,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // تفعيل التأثير على الأزرار الموجودة في الصفحة عند تحميلها
     addRippleEffectToButtons(document.body);
 
 
