@@ -38,10 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =================================================================
-    // === 1. قائمة الخدمات المحدثة (بأسماء صورك) ===
+    // === 1. قائمة الخدمات ===
     // =================================================================
     const services = [
-        // --- خدمات الآلة الحاسبة (المفردة) ---
+        // --- خدمات الآلة الحاسبة ---
         { 
             name: 'مكيف اسبليت', price: 50, unit: 'qty', 
             description: 'غسيل وصيانة الفلاتر.', 
@@ -52,14 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             name: 'مكيف شباك', price: 35, unit: 'qty', 
             description: 'تنظيف شامل للوحدة.', 
-            icon: 'shb.png', // صورتك
+            icon: 'shb.png',
             type: 'calculator',
             featured: true 
         },
         { 
             name: 'مكيف دولابي', price: 90, unit: 'qty', 
             description: 'تنظيف شامل للمكيف الواقف.', 
-            icon: 'mkef.png', // صورتك
+            icon: 'mkef.png',
             type: 'calculator',
             featured: true 
         },
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             name: 'ستائر', price: 12.5, unit: 'm2',
             description: 'تنظيف بالبخار في مكانها.', 
-            icon: 'star.png', // صورتك
+            icon: 'star.png',
             type: 'calculator'
         },
         { 
@@ -96,13 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             name: 'الأرضيات', price: 4, unit: 'm2', 
             description: 'تلميع وجلي الأرضيات.', 
-            icon: 'ard.png', // صورتك
+            icon: 'ard.png',
             type: 'calculator'
         },
         { 
             name: 'النوافذ', price: 12.5, unit: 'qty',
             description: 'تنظيف وتلميع النوافذ.', 
-            icon: 'nafth.png', // صورتك
+            icon: 'nafth.png',
             type: 'calculator'
         },
         { 
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'calculator'
         },
         
-        // --- خدمات الحجز المباشر (الشاملة) ---
+        // --- خدمات الحجز المباشر ---
         { 
             name: 'شقة',
             description: 'تنظيف شامل للشقق السكنية.', 
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             name: 'فله',
             description: 'تنظيف شامل للفلل والقصور.', 
-            icon: 'flah.png', // صورتك
+            icon: 'flah.png',
             type: 'booking' 
         },
         { 
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let buttonHtml = '';
         let badgeHtml = '';
         let buttonText = '';
-        let buttonClass = 'ripple-btn'; // الكلاس الجديد
+        let buttonClass = 'ripple-btn';
 
         switch (service.type) {
             case 'booking':
@@ -168,13 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'discount':
                 badgeHtml = `<div class="discount-badge">خصم ${service.discount}%</div>`;
                 buttonText = 'اطلب الخصم';
-                buttonClass += ' discount-btn'; // كلاس إضافي لزر الخصم
+                buttonClass += ' discount-btn';
                 break;
             default: // 'calculator'
                 buttonText = 'احسب السعر';
         }
         
-        // بناء الزر الجديد البسيط
         buttonHtml = `<button class="${buttonClass}" data-service='${JSON.stringify(service)}'>${buttonText}</button>`;
 
         cardWrapper.innerHTML = `
@@ -271,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             default: // 'calculator'
                 modalTitle = `حاسبة سعر ${service.name}`;
-                // إزالة القيمة الافتراضية value="1"
                 if (service.unit === 'm2') {
                     formInputs = `<div class="input-group"><label class="input-label" for="width">العرض (متر)</label><input class="input-field" type="number" id="width" placeholder="مثال: 4" min="1"></div><div class="input-group"><label class="input-label" for="length">الطول (متر)</label><input class="input-field" type="number" id="length" placeholder="مثال: 5" min="1"></div>`;
                 } else if (service.unit === 'm') {
@@ -319,29 +317,25 @@ document.addEventListener('DOMContentLoaded', () => {
         addRippleEffectToButtons(modalBody);
     }
 
+    // === تم إصلاح دالة setupCalculator لمنع التعليق ===
     function setupCalculator(service) {
         const priceResult = document.getElementById('price-result');
         const inputs = modalBody.querySelectorAll('.input-field[type="number"]');
         const bookingSection = modalBody.querySelector('.booking-form');
         const separator = modalBody.querySelector('hr');
         
-        let bookingSectionHeight = 0;
-        if (bookingSection) {
-            const wasHidden = bookingSection.classList.contains('hidden');
-            if (wasHidden) bookingSection.classList.remove('hidden'); 
-            bookingSectionHeight = bookingSection.scrollHeight + 100;
-            if (wasHidden) bookingSection.classList.add('hidden'); 
-        }
-        
+        // إذا لم تكن حاسبة (حجز مباشر)، أظهر الفورم فوراً واخرج
         if (service.type !== 'calculator') {
             if (bookingSection && separator) {
                 separator.classList.remove('hidden');
                 bookingSection.classList.remove('hidden');
-                bookingSection.style.maxHeight = bookingSectionHeight + 'px';
+                // تعيين ارتفاع تلقائي لضمان الظهور
+                bookingSection.style.maxHeight = "1000px"; 
             }
             return; 
         }
 
+        // دالة الحساب
         function calculatePrice() {
             let price = 0;
             if (service.unit === 'm2') {
@@ -362,18 +356,25 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if(priceResult) priceResult.textContent = price.toFixed(2);
 
-            if (price > 0 && bookingSection && separator && bookingSection.classList.contains('hidden')) {
-                separator.classList.remove('hidden');
-                bookingSection.classList.remove('hidden');
-                bookingSection.style.maxHeight = bookingSectionHeight + 'px';
-            } else if (price <= 0 && bookingSection && separator && !bookingSection.classList.contains('hidden')) {
-                 bookingSection.style.maxHeight = '0px';
-                 setTimeout(() => {
-                     if (price <= 0) { 
-                        bookingSection.classList.add('hidden');
-                        separator.classList.add('hidden');
-                     }
-                 }, 700); 
+            // منطق الإظهار والإخفاء (تم تحسينه)
+            if (price > 0) {
+                if (bookingSection && separator) {
+                    separator.classList.remove('hidden');
+                    bookingSection.classList.remove('hidden');
+                    // حساب الارتفاع ديناميكياً الآن لضمان الدقة
+                    bookingSection.style.maxHeight = bookingSection.scrollHeight + "px";
+                }
+            } else {
+                if (bookingSection && separator) {
+                    bookingSection.style.maxHeight = '0px';
+                    setTimeout(() => {
+                        // تأكد من أن السعر لا يزال صفراً قبل الإخفاء (لتجنب الومضات)
+                         if (priceResult.textContent == "0.00") { 
+                            bookingSection.classList.add('hidden');
+                            separator.classList.add('hidden');
+                         }
+                     }, 500); 
+                }
             }
         }
 
@@ -381,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.oninput = calculatePrice;
         });
 
-        calculatePrice();
+        // لا نستدعي calculatePrice() في البداية لأن الحقول فارغة
     }
 
     function setupBookingForm(service) { 
@@ -428,6 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.textContent = '...جاري الإرسال';
             submitButton.disabled = true;
 
+            // رابط الفورم الخاص بك
             const FORM_ENDPOINT = 'https://formspree.io/f/xvgdvqzg'; 
             
             fetch(FORM_ENDPOINT, {
