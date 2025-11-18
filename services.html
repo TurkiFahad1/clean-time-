@@ -1,425 +1,82 @@
-/* --- الإعدادات العامة --- */
-:root {
-    --dark-blue: #0d2a4a;
-    --light-blue: #1e4776;
-    --accent-orange: #e65a41;
-    --accent-glow: #ffc506;
-    --logo-main-blue: #2c9ed2;
-    --logo-light-blue: #e0f2f7;
-    --text-color: #ffffff;
-    --font-family: 'Cairo', sans-serif;
-}
-
-body {
-    margin: 0;
-    font-family: var(--font-family);
-    background-color: var(--dark-blue);
-    color: var(--text-color);
-    text-align: right;
-    overflow-x: hidden;
-}
-
-.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-header {
-    background: rgba(13, 42, 74, 0.8);
-    padding: 10px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(5px);
-}
-header .container { display: flex; justify-content: space-between; align-items: center; }
-
-.logo {
-    height: 110px;
-    transition: height 0.6s ease-out;
-}
-
-nav a { color: var(--text-color); text-decoration: none; margin: 0 15px; font-weight: bold; transition: color 0.3s; }
-nav a:hover { color: var(--logo-main-blue); }
-.cta-button { background-color: var(--logo-main-blue); color: var(--text-color); padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: background-color 0.3s; }
-.cta-button:hover { background-color: #38b1e4; }
-.hidden { display: none; }
-#splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--dark-blue); display: flex; justify-content: center; align-items: center; z-index: 1000; transition: opacity 0.8s ease-out; }
-#splash-screen img {
-    max-width: 400px;
-    animation: zoomIn 1.5s ease-in-out forwards;
-}
-@keyframes zoomIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
-
-/* --- كود قسم الـ Hero الدوار ثلاثي الأبعاد --- */
-.wrapper {
-  width: 100%; height: 450px; position: relative; text-align: center; display: flex;
-  align-items: center; justify-content: center; overflow: hidden;
-  background-image: linear-gradient(rgba(13, 42, 74, 0.7), rgba(13, 42, 74, 0.9)), url('klllf.jpeg');
-  background-size: cover; background-position: center;
-  cursor: grab;
-}
-.wrapper:active { cursor: grabbing; }
-
-.inner {
-  --w: 180px; 
-  --h: 320px; 
-  --quantity: 6;
-  --translateZ: calc((var(--w) + var(--h)) / 1.4); 
-  --rotateX: -10deg; --perspective: 1500px;
-  position: absolute; width: var(--w); height: var(--h); top: 10%; left: calc(50% - (var(--w) / 2) - 2.5px);
-  z-index: 2; transform-style: preserve-3d; transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg);
-}
-
-.card {
-  position: absolute; --color-card: var(--logo-main-blue); border: 1px solid rgba(var(--color-card), 0.5);
-  border-radius: 10px; overflow: hidden; inset: 0;
-  transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
-  transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-  user-select: none; -webkit-user-drag: none;
-}
-.card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-
-/* --- قسم الخدمات --- */
-#services { padding: 50px 0; }
-#services h2 { text-align: center; font-size: 2.5em; margin-bottom: 40px; }
-#all-services-grid + h1, body > main > section#services > h1 {
-    text-align: center; font-size: 2.8em; margin-bottom: 40px; color: var(--logo-light-blue);
-}
-.services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
-.service-card { --border-size: 3px; --border-angle: 0turn; background: var(--light-blue); position: relative; border-radius: 15px; display: flex; flex-direction: column; }
-.service-card::before { content: ''; position: absolute; z-index: -1; top: calc(-1 * var(--border-size)); left: calc(-1 * var(--border-size)); width: calc(100% + var(--border-size) * 2); height: calc(100% + var(--border-size) * 2); background: conic-gradient(from var(--border-angle), var(--dark-blue), var(--dark-blue) 50%, var(--logo-main-blue) 50%, var(--logo-main-blue)); background-size: 200% 200%; border-radius: 18px; animation: spin 5s linear infinite; }
-@keyframes spin { to { --border-angle: 1turn; } }
-.service-card:hover::before { animation-play-state: paused; }
-.service-card-content { padding: 30px 20px 20px; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; display: flex; flex-direction: column; }
-
-.service-card-content img { 
-    height: 60px; 
-    margin: 0 auto 15px; 
-    filter: brightness(0) invert(1); 
-}
-
-.service-card-content h3 { margin: 0; font-size: 1.6em; }
-.service-card-content p { color: #ccc; margin: 10px 0 25px; font-size: 0.9em; min-height: 2.7em; flex-grow: 1; }
-
-/* --- 
-  تنسيق الزر الجديد 
-  (Ripple Button)
---- */
-button.ripple-btn {
-    position: relative;
-    display: inline-block;
-    width: 90%;
-    max-width: 250px; 
-    padding: 12px 20px;
-    margin: 0 auto 20px; 
-    font-family: var(--font-family);
-    font-size: 1em;
-    font-weight: bold;
-    color: var(--text-color);
-    background-color: var(--logo-main-blue); 
-    border: none;
-    border-radius: 25px; 
-    cursor: pointer;
-    overflow: hidden; 
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    text-decoration: none;
-    text-align: center;
-    z-index: 1;
-}
-
-button.ripple-btn:hover {
-    background-color: #38b1e4; 
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-/* تنسيق الزر داخل الفورم (Modal) */
-.booking-form button.ripple-btn {
-    width: 100%; 
-    max-width: 350px;
-}
-
-/* تنسيق أزرار الخصم */
-button.ripple-btn.discount-btn {
-    background-color: var(--accent-orange);
-}
-button.ripple-btn.discount-btn:hover {
-    background-color: #d94a30; 
-}
-
-/* تنسيق تأثير التموج */
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5); 
-    transform: scale(0);
-    animation: ripple-effect 0.6s linear;
-    pointer-events: none; 
-}
-
-@keyframes ripple-effect {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-/* --- نهاية تنسيق الزر الجديد --- */
-
-
-/* --- النافذة المنبثقة (Modal) --- */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: none; justify-content: center; align-items: center; z-index: 200; backdrop-filter: blur(5px); }
-.modal-content { background: var(--light-blue); padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; animation: slideIn 0.5s forwards; border: 1px solid rgba(255, 255, 255, 0.1); }
-@keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.close-button { position: absolute; top: 15px; left: 20px; font-size: 2em; cursor: pointer; color: #fff; }
-.calculator-form { display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; }
-.calculator-form h3 { text-align: center; font-size: 1.8em; margin: 0 0 10px 0; }
-.price-display { text-align: center; margin: 10px 0; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; width: 100%; box-sizing: border-box;}
-.price-display h4 { margin: 0; font-size: 1.2em; }
-.price-display p { font-size: 0.8em; opacity: 0.7; margin-top: 5px; }
-.booking-form { display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; overflow: hidden; transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out; }
-.booking-form.hidden { max-height: 0; opacity: 0; }
-.booking-form h4 { text-align: center; font-size: 1.8em; margin: 0 0 10px 0; }
-hr { width: 100%; border: 0; height: 1px; background: rgba(255,255,255,0.2); margin: 30px 0; transition: opacity 0.5s; }
-hr.hidden { opacity: 0; }
-.input-group { width: 100%; max-width: 350px; }
-.input-label { display: block; margin-right: 10px; margin-bottom: 5px; color: #ddd; font-size: 0.9em; font-weight: bold; }
-.input-field { width: 100%; padding: 12px 15px; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: #fff; font-family: var(--font-family); font-size: 1em; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; text-align: right; }
-.input-field:focus { outline: none; border-color: var(--logo-main-blue); box-shadow: 0 0 15px rgba(44, 158, 210, 0.5); }
-
-/* --- كود بطاقة التواصل الاجتماعي --- */
-.social-card {
-  position: fixed; bottom: 20px; right: 20px; z-index: 1000;
-  max-width: fit-content; border-radius: 12px; display: flex; gap: 0.5rem;
-  backdrop-filter: blur(10px); background: rgba(44, 158, 210, 0.1);
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 3px rgba(255, 255, 255, 0.2), 0 3px 3px rgba(0, 0, 0, 0.1);
-  transition: 0.5s;
-}
-.social-card:hover { background: rgba(44, 158, 210, 0.15); }
-.social-card ul { padding: 0.8rem; display: flex; list-style: none; gap: 1rem; flex-direction: column; margin: 0; }
-.social-card ul li { cursor: pointer; }
-.svg, img.svg {
-  transition: all 0.3s ease; padding: 0.6rem; height: 35px; width: 35px;
-  border-radius: 50%; color: var(--accent-glow);
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.1);
-  display: block; box-sizing: content-box; background-color: rgba(0,0,0, 0.1);
-}
-.svg { fill: currentColor; }
-.iso-pro.snapchat .svg {
-    fill: #FFFC00; 
-    color: #000;
-}
-.text {
-  opacity: 0; border-radius: 5px; padding: 4px 8px; font-size: 0.8em;
-  transition: all 0.3s; color: #000; background-color: var(--accent-glow);
-  position: absolute; z-index: 9999; font-weight: bold; white-space: nowrap;
-  box-shadow: -3px 0 1px rgba(153, 153, 153, 0.1), -6px 0 1px rgba(153, 153, 153, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.05);
-}
-.iso-pro { transition: 0.5s; position: relative; }
-.iso-pro a { display: block; }
-.iso-pro:hover a > .svg,
-.iso-pro:hover a > img.svg { transform: translate(10px, -10px) scale(1.1); color: #fff; background-color: rgba(0,0,0, 0.2); box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1), 0 5px 10px rgba(0, 0, 0, 0.2); }
-.iso-pro.whatsapp:hover a > img.svg { filter: brightness(1.2); }
-.iso-pro:hover .text { opacity: 1; transform: translate(18px, -1px) skew(-5deg); }
-.iso-pro span {
-  opacity: 0; position: absolute;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 3px rgba(255, 255, 255, 0.3), 0 3px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 50%; transition: all 0.3s; height: 35px; width: 35px;
-  top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;
-}
-.iso-pro.whatsapp span { color: #25d366; border: 1px solid #25d366; }
-.iso-pro.instagram span { color: #E4405F; border: 1px solid #E4405F; }
-.iso-pro.snapchat span { color: #FFFC00; border: 1px solid #FFFC00; }
-.iso-pro:hover span { opacity: 1; }
-.iso-pro:hover span:nth-child(1) { opacity: 0.2; transform: translate(-50%, -50%); }
-.iso-pro:hover span:nth-child(2) { opacity: 0.4; transform: translate(calc(-50% + 4px), calc(-50% - 4px)); }
-.iso-pro:hover span:nth-child(3) { opacity: 0.6; transform: translate(calc(-50% + 8px), calc(-50% - 8px)); }
-
-/* --- الفوتر (Footer) --- */
-footer {
-    background-color: var(--dark-blue);
-    padding: 20px 0;
-    text-align: center;
-    font-size: 0.9em;
-    color: #bbb;
-    margin-top: 50px;
-}
-footer a { color: var(--logo-main-blue); text-decoration: none; transition: color 0.3s; }
-footer a:hover { color: var(--accent-glow); }
-
-/* --- زر المزيد من الخدمات --- */
-.more-services-btn {
-    display: inline-block;
-    padding: 12px 25px;
-}
-
-/* --- كود خاص بصفحة "من نحن" --- */
-.about-page-content .about-logo {
-    display: block; margin-left: auto; margin-right: auto;
-    border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-}
-.animated-logo {
-    animation: growIn 0.8s ease-out forwards;
-    transform: scale(0.5); opacity: 0;
-}
-@keyframes growIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-/* --- قسم التجاوب مع الجوال (Mobile Responsiveness) --- */
-@media (max-width: 768px) {
-    header .container { flex-wrap: wrap; justify-content: center; }
-    .logo { height: 75px !important; } 
-    nav { margin-top: 10px; }
-    nav a { margin: 0 10px; font-size: 0.9em;}
-    .cta-button { margin-top: 10px; font-size: 0.9em; padding: 8px 15px;}
-    .wrapper { height: 350px; }
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خدماتنا - وقت النظافة</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
     
-    .inner { 
-        --w: 130px; 
-        --h: 240px; 
-        --translateZ: calc((var(--w) + var(--h)) / 1.5); 
-        top: 10%;
-    }
+    <div id="splash-screen">
+        <img src="klf.png" alt="شعار وقت النظافة">
+    </div>
 
-    #all-services-grid + h1, body > main > section#services > h1 { font-size: 2.2em; }
-    #services h2 { font-size: 2em; } 
-    .services-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 10px; }
-    .service-card { padding: 8px; border-radius: 10px; }
-     .service-card::before { border-radius: 13px; }
-    .service-card-content { padding: 10px 8px; }
-    
-    .service-card-content img {
-        height: 40px;
-        margin-bottom: 5px;
-    }
+    <div id="main-content" class="hidden">
+        <header>
+            <div class="container">
+                 <a href="index.html">
+                    <img src="klf.png" alt="شعار وقت النظافة" class="logo">
+                </a>
+                <nav>
+                    <a href="services.html">خدماتنا</a>
+                    <a href="about.html">من نحن</a>
+                    <a href="contact.html">اتصل بنا</a>
+                </nav>
+                <a href="https://wa.me/966500362696" target="_blank" class="cta-button">اطلب خدمة الآن</a>
+            </div>
+        </header>
 
-    .service-card-content h3 { font-size: 1em; margin-bottom: 3px; }
-    .service-card-content p { font-size: 0.65em; margin-bottom: 10px; line-height: 1.3; }
-    
-    /* --- تعديل: زر الريبل على الجوال --- */
-    button.ripple-btn {
-        width: 100%; 
-        padding: 10px;
-        font-size: 0.8em;
-        margin-bottom: 5px; 
-    }
+        <main>
+            <section id="services" class="container">
+                <h1 style="text-align: center; font-size: 2.8em; margin-bottom: 40px; color: var(--logo-light-blue);">قائمة خدماتنا الكاملة</h1>
+                
+                <h2 style="text-align: center; font-size: 2.5em; margin: 60px 0 30px; color: var(--logo-main-blue);">خدمات التنظيف الشامل</h2>
+                <div class="services-grid" id="booking-services-grid">
+                    </div>
+                
+                <h2 style="text-align: center; font-size: 2.5em; margin: 60px 0 30px; color: var(--logo-main-blue);">خدمات التنظيف المفردة</h2>
+                <div class="services-grid" id="all-services-grid">
+                    </div>
+            </section>
+        </main>
 
-    .more-services-btn { font-size: 0.9em; padding: 10px 20px; }
-    .modal-content { padding: 20px; max-height: 85vh; overflow-y: auto; }
-    .calculator-form h3, .booking-form h4 { font-size: 1.5em; }
-    .input-group { max-width: 90%; }
-    .price-display h4 { font-size: 1.1em; }
-    .booking-form { gap: 10px; }
-    footer { margin-top: 30px; padding: 15px 0; font-size: 0.8em;}
-    .social-card { bottom: 15px; right: 15px; }
-    .social-card ul { padding: 0.6rem; gap: 0.8rem; }
-    .svg, img.svg { height: 30px; width: 30px; padding: 0.5rem; }
-    .iso-pro span { height: 30px; width: 30px; top: 50%; left: 50%; }
-    .text { display: none; }
-    .iso-pro:hover a > .svg, .iso-pro:hover a > img.svg { transform: none; }
-    .iso-pro:hover span { opacity: 0; }
-    
-    .about-page-content h1 { font-size: 2.2em; }
-    .about-page-content .about-logo { max-width: 200px; }
-    .about-page-content p { font-size: 1em; line-height: 1.7; }
-    .about-page-content h2 { font-size: 1.6em; }
-}
+        <footer><p>© 2025 وقت النظافة. جميع الحقوق محفوظة.</p></footer>
+    </div>
 
-/* --- تنسيقات لصفحة اتصل بنا --- */
-.contact-page { padding: 50px 20px; text-align: center; }
-.contact-page h1 { font-size: 2.8em; margin-bottom: 40px; color: var(--logo-light-blue); }
-.contact-methods { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-.contact-method {
-    background-color: var(--light-blue); padding: 25px; border-radius: 15px;
-    width: 250px; text-align: center; transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-.contact-method:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(var(--logo-main-blue), 0.4); }
-.contact-method svg, .contact-method img { width: 50px; height: 50px; margin-bottom: 15px; }
-.contact-method h3 { margin-top: 0; margin-bottom: 10px; font-size: 1.3em; }
-.contact-method p { margin: 0; font-size: 1em; color: #eee; word-wrap: break-word; }
-.contact-method a { color: inherit; text-decoration: none; display: block; }
-@media (max-width: 768px) {
-    .contact-page h1 { font-size: 2.2em; }
-    .contact-method { width: 80%; }
-}
+    <div id="modal" class="modal-overlay"><div class="modal-content"><span class="close-button">&times;</span><div id="modal-body"></div></div></div>
 
-/* --- أزرار الكاروسيل --- */
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    background-color: rgba(44, 158, 210, 0.7);
-    border: none;
-    color: white;
-    font-size: 24px;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    line-height: 45px;
-    user-select: none;
-}
-.carousel-btn:hover {
-    background-color: rgba(56, 177, 228, 1);
-}
-.prev-btn {
-    left: 20px;
-    padding-right: 3px;
-}
-.next-btn {
-    right: 20px;
-    padding-left: 3px;
-}
-@media (max-width: 768px) {
-    .carousel-btn {
-        display: none;
-    }
-}
+    <div class="social-card">
+        <ul>
+            <li class="iso-pro whatsapp">
+                <a href="https://wa.me/966500362696" target="_blank">
+                    <img class="svg" src="whatsapp.png" alt="WhatsApp">
+                    <span></span><span></span><span></span>
+                    <div class="text">واتساب</div>
+                </a>
+            </li>
 
-/* --- تنسيق الكروت المميزة (مكيفات) --- */
-.service-card.featured {
-    background: var(--logo-main-blue);
-    border: 2px solid var(--accent-glow);
-    box-shadow: 0 0 20px rgba(255, 197, 6, 0.5);
-}
-.service-card.featured::before {
-    display: none;
-}
-/* --- تعديل: الزر داخل الكرت المميز --- */
-.service-card.featured .ripple-btn {
-    background-color: var(--light-blue); 
-    color: var(--text-color);
-}
-.service-card.featured .ripple-btn:hover {
-    background-color: #3a73b1; 
-}
+            <li class="iso-pro instagram">
+                <a href="https://www.instagram.com/clean.taim" target="_blank">
+                    <img class="svg" src="instagram.png" alt="Instagram">
+                    <span></span><span></span><span></span>
+                    <div class="text">انستقرام</div>
+                </a>
+            </li>
 
+            <li class="iso-pro snapchat">
+                <a href="https://www.snapchat.com/add/clean.taim" target="_blank">
+                    <img class="svg" src="snapchat.png" alt="Snapchat">
+                    <span></span><span></span><span></span>
+                    <div class="text">سناب شات</div>
+                </a>
+            </li>
+        </ul>
+    </div>
 
-/* --- تنسيق شارة الخصم (للمساجد) --- */
-.discount-badge {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    background-color: var(--accent-orange);
-    color: white;
-    font-size: 1.1em;
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 10px;
-    transform: rotate(-15deg);
-    z-index: 5;
-    animation: pulse 1.5s infinite;
-}
-@keyframes pulse {
-    0% { transform: rotate(-15deg) scale(1); }
-    50% { transform: rotate(-15deg) scale(1.1); }
-    100% { transform: rotate(-15deg) scale(1); }
-}
-/* --- تعديل: زر الخصم --- */
-.service-card .ripple-btn.discount-btn {
-    background: var(--accent-orange);
-}
-.service-card .ripple-btn.discount-btn:hover {
-    background: #d94a30;
-}
+    <script src="script.js"></script>
+</body>
+</html>
